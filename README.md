@@ -20,4 +20,5 @@ https://github.com/user-attachments/assets/31e9a728-249f-4ddd-8d9a-66fb266ec8c8
 # Author
 
 * Takamasa Fukase (Ultra-Fukase)
-* ultrafukase@gmail.com
+* https://www.instagram.com/takamasa_fukase/
+* https://www.youtube.com/@UltraFukaseGekishibu
