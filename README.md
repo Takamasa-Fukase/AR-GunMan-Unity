@@ -9,6 +9,8 @@ UnityとKotlin（Jetpack compose）との連携実装についての記事も書
 
 [UnityとJetpackComposeでウルトラARシューティングゲームを作ろう！（Kotlin、JetpackCompose連携まとめ）](https://zenn.dev/arsaga/articles/ede728a794a553)
 
+iOS版は[こちら](https://github.com/Takamasa-Fukase/AR-GunMan/tree/main)
+
 # Demo
 
 ### Video
