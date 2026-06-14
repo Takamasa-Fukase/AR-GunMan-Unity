@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class PistolAnimation : MonoBehaviour
+public class WeaponRecoilAnimation : MonoBehaviour
 {
-    public static PistolAnimation instance;
-    private bool isExecutingPistolShootAnimation = false;
+    public static WeaponRecoilAnimation instance;
+    private bool isExecutingAnimation = false;
     float destinationAngleValue = (Mathf.PI / 6) * Mathf.Rad2Deg;
     float rotationTime = 0.06f; // 回転にかける時間
 
@@ -21,10 +21,10 @@ public class PistolAnimation : MonoBehaviour
     IEnumerator ShootingAnimation()
     {
         // まだ前回のアニメーションが実行中なら弾く
-        if (!isExecutingPistolShootAnimation)
+        if (!isExecutingAnimation)
         {
             // アニメーション実行中なのでtrueに切り替え
-            isExecutingPistolShootAnimation = true;
+            isExecutingAnimation = true;
 
             // MEMO: ピストルの3Dモデルのデフォルト角度がそういえば横向きに倒した様な角度になっていた。
             // なのでFPS視点に設置した時点では倒れているピストルを起こした（回転させた）状態になっている。
@@ -46,7 +46,7 @@ public class PistolAnimation : MonoBehaviour
             );
 
             // アニメーション実行が完了したのでfalseに切り替え
-            isExecutingPistolShootAnimation = false;
+            isExecutingAnimation = false;
         }
     }
 

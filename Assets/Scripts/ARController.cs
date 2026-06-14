@@ -185,7 +185,7 @@ public class ARController : MonoBehaviour
         shotBullets.Add(newBullet);
 
         // ピストルオブジェクトに対して発砲時の銃口跳ね上げアニメーションを実行させる
-        PistolAnimation.instance.ExecuteShootingAnimation();
+        WeaponRecoilAnimation.instance.ExecuteShootingAnimation();
     }
 
     public void HandleOnCollisionEnterToTargetObject(Collision collision, GameObject targetObject)
