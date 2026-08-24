@@ -121,12 +121,12 @@ public class ARController : MonoBehaviour
     private void SendMessageToAndroid(UnityToAndroidMessage message)
     {
         print($"SendMessageToAndroid message: {message}");
-        AndroidJavaObject unityToAndroidMessenger = new("com.takamasafukase.ar_gunman_android.UnityToAndroidMessenger");
+        AndroidJavaObject unityMessageCenter = new("com.takamasafukase.ar_gunman_android.UnityMessageCenter");
         // 構造体からJSON文字列に変換
         string jsonStringMessage = JsonUtility.ToJson(message);
 
         print($"SendMessageToAndroid jsonStringMessage: {jsonStringMessage}");
-        unityToAndroidMessenger.Call("sendMessage", jsonStringMessage);
+        unityMessageCenter.Call("onReceivedMessageFromUnity", jsonStringMessage);
     }
 
     // Android側から呼び出すメソッドなのでpublicにしている
