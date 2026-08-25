@@ -75,6 +75,22 @@ public class ARController : MonoBehaviour
         CheckPerSecond();
     }
 
+    void OnEnable()
+    {
+        if (AndroidMessageCenter.Instance != null)
+        {
+            AndroidMessageCenter.Instance.RenderWeaponFiringEvent += HandleFireWeapon;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (AndroidMessageCenter.Instance != null)
+        {
+            AndroidMessageCenter.Instance.RenderWeaponFiringEvent -= HandleFireWeapon;
+        }
+    }
+
     private void GenerateTargetsToRandomPositions()
     {
         for (int i = 0; i < 50; i++)
@@ -118,41 +134,11 @@ public class ARController : MonoBehaviour
         return randomPosition;
     }
 
-    private void SendMessageToAndroid(UnityToAndroidMessage message)
+    private void HandleFireWeapon()
     {
-        print($"SendMessageToAndroid message: {message}");
-        AndroidJavaObject unityMessageCenter = new("com.takamasafukase.ar_gunman_android.UnityMessageCenter");
-        // 構造体からJSON文字列に変換
-        string jsonStringMessage = JsonUtility.ToJson(message);
-
-        print($"SendMessageToAndroid jsonStringMessage: {jsonStringMessage}");
-        unityMessageCenter.Call("onReceivedMessageFromUnity", jsonStringMessage);
-    }
-
-    // Android側から呼び出すメソッドなのでpublicにしている
-    public void OnReceiveMessageFromAndroid(string stringMessage)
-    {
-        print($"OnReceiveMessageFromAndroid stringMessage: {stringMessage}");
-        // JSON文字列から構造体に変換
-        AndroidToUnityMessage message = JsonUtility.FromJson<AndroidToUnityMessage>(stringMessage);
-        print($"OnReceiveMessageFromAndroid message: {message}");
-
-        switch (message.eventType)
-        {
-            case AndroidToUnityMessage.EventType.showWeapon:
-                print("showWeapon");
-                // TODO: ピストルを表示＆FPS視点に固定（座標と角度をUpdate()内で移動）
-                break;
-            case AndroidToUnityMessage.EventType.fireWeapon:
-                print("fireWeapon");
-                HandleFireWeapon(weaponType: message.weaponType);
-                break;
-        }
-    }
-
-    private void HandleFireWeapon(AndroidToUnityMessage.WeaponType weaponType)
-    {
-        print($"HandleFireWeapon weaponType: {weaponType}");
+        // 仮　後でUnity側でもcurrentWeaponIdを保持するようにリファクタさせる想定
+        AndroidToUnityMessage.WeaponType weaponType = AndroidToUnityMessage.WeaponType.pistol;
+        print($"HandleFireWeapon");
         switch (weaponType)
         {
             case AndroidToUnityMessage.WeaponType.pistol:
@@ -197,11 +183,11 @@ public class ARController : MonoBehaviour
             Destroy(hitBullet?.bullet);
             shotBullets.Remove((ShotBullet)hitBullet);
 
-            var message = new UnityToAndroidMessage(
+            var toAndroidMessage = new UnityToAndroidMessage(
                 eventType: UnityToAndroidMessage.EventType.targetHit
             );
             // 的に弾が当たったことをAndroid側に通知
-            SendMessageToAndroid(message: message);
+            AndroidMessageCenter.Instance.SendMessageToAndroid(message: toAndroidMessage);
         }
         GameObject hitTargetObject = targets.Find(target => target == targetObject);
         if (hitTargetObject != null)

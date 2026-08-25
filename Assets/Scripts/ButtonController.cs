@@ -26,7 +26,7 @@ public class ButtonController : MonoBehaviour
             weaponType: AndroidToUnityMessage.WeaponType.pistol
         );
         string dummyJsonString = JsonUtility.ToJson(fromAndroidMessage);
-        ARController.instance.OnReceiveMessageFromAndroid(stringMessage: dummyJsonString);
+        AndroidMessageCenter.Instance.OnReceivedMessageFromAndroid(message: dummyJsonString);
     }
 
     public void print(string message)
