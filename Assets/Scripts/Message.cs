@@ -35,6 +35,7 @@ public struct UnityToAndroidMessage
     }
     public enum EventType
     {
+        splashFinished,
         targetHit,
     }
 }
