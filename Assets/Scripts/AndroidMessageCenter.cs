@@ -16,7 +16,7 @@ public class AndroidMessageCenter : MonoBehaviour
     public void SendMessageToAndroid(UnityToAndroidMessage message)
     {
         print($"SendMessageToAndroid message: {message}");
-        AndroidJavaObject unityMessageCenter = new("com.takamasafukase.ar_gunman_android.UnityMessageCenter");
+        AndroidJavaObject unityMessageCenter = new("com.ar_gunman_android.arshootingengine.UnityMessageCenter");
         // 構造体からJSON文字列に変換
         string jsonStringMessage = JsonUtility.ToJson(message);
 
