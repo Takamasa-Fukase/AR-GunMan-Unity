@@ -7,6 +7,7 @@ public class AndroidMessageCenter : MonoBehaviour
     public static AndroidMessageCenter Instance;
 
     public event Action RenderWeaponFiringEvent;
+    public event Action ResetGameSceneEvent;
 
     void Awake()
     {
@@ -15,32 +16,36 @@ public class AndroidMessageCenter : MonoBehaviour
 
     public void SendMessageToAndroid(UnityToAndroidMessage message)
     {
-        print($"SendMessageToAndroid message: {message}");
+        print($"ログUnity SendMessageToAndroid message: {message}");
         AndroidJavaObject unityMessageCenter = new("com.ar_gunman_android.arshootingengine.UnityMessageCenter");
         // 構造体からJSON文字列に変換
         string jsonStringMessage = JsonUtility.ToJson(message);
 
-        print($"SendMessageToAndroid jsonStringMessage: {jsonStringMessage}");
+        print($"ログUnity SendMessageToAndroid jsonStringMessage: {jsonStringMessage}");
         unityMessageCenter.Call("onReceivedMessageFromUnity", jsonStringMessage);
     }
 
     // Android側から呼び出される
     public void OnReceivedMessageFromAndroid(string message)
     {
-        print($"OnReceivedMessageFromAndroid message: {message}");
+        print($"ログUnity OnReceivedMessageFromAndroid message: {message}");
         // JSON文字列から構造体に変換
         AndroidToUnityMessage fromAndroidMessage = JsonUtility.FromJson<AndroidToUnityMessage>(message);
-        print($"OnReceivedMessageFromAndroid fromAnddroidMessage: {message}");
+        print($"ログUnity OnReceivedMessageFromAndroid fromAnddroidMessage: {message}");
 
         switch (fromAndroidMessage.eventType)
         {
             case AndroidToUnityMessage.EventType.showWeapon:
-                print("showWeapon");
+                print("ログUnity showWeapon");
                 // TODO: ピストルを表示＆FPS視点に固定（座標と角度をUpdate()内で移動）
                 break;
             case AndroidToUnityMessage.EventType.fireWeapon:
-                print("fireWeapon");
+                print("ログUnity fireWeapon");
                 RenderWeaponFiringEvent.Invoke();
+                break;
+            case AndroidToUnityMessage.EventType.resetGameScene:
+                print("ログUnity resetGameScene");
+                ResetGameSceneEvent.Invoke();
                 break;
         }
     }

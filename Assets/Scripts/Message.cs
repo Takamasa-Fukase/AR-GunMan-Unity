@@ -17,6 +17,7 @@ public struct AndroidToUnityMessage
     public enum EventType{
         showWeapon,
         fireWeapon,
+        resetGameScene,
     }
     public enum WeaponType{
         pistol,
